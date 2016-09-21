@@ -31,7 +31,7 @@
 
     <!-- dependency versions -->
     <camel.version>2.17.3</camel.version>
-    <fabric8.version>2.2.160</fabric8.version>
+    <fabric8.version>2.2.161</fabric8.version>
     <fabric8-ipaas.version>2.2.153</fabric8-ipaas.version>
     <kie.version>6.4.0.Final</kie.version>
     <kie-camel.version>6.2.0.Final</kie-camel.version>
