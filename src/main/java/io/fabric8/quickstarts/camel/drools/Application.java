@@ -19,14 +19,11 @@ import org.apache.camel.spring.boot.FatJarRouter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
 
-/**
- * The Spring-boot main class.
- */
+
 @SpringBootApplication
-@ImportResource({"classpath:spring/camel-context.xml", "classpath:spring/kie-spring.xml"})
+@ImportResource({"classpath:spring/camel-context.xml"})
 public class Application extends FatJarRouter {
 
-    // must have a main method spring-boot can run
     public static void main(String[] args) {
         FatJarRouter.main(args);
     }
