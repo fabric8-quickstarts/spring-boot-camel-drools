@@ -15,17 +15,17 @@
  */
 package io.fabric8.quickstarts.camel.drools;
 
-import org.apache.camel.spring.boot.FatJarRouter;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
 
 
 @SpringBootApplication
 @ImportResource({"classpath:spring/camel-context.xml"})
-public class Application extends FatJarRouter {
+public class Application {
 
     public static void main(String[] args) {
-        FatJarRouter.main(args);
+        SpringApplication.run(Application.class, args);
     }
 
 }
