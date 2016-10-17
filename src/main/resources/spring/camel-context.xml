@@ -1,54 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://camel.apache.org/schema/spring       http://camel.apache.org/schema/spring/camel-spring.xsd">
-
-
-    <camelContext xmlns="http://camel.apache.org/schema/spring">
-
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       http://camel.apache.org/schema/spring/camel-spring.xsd">
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
         <!--
             A route that creates periodically random Persons and send them to the kie server.
             Objects are wrapped in a batch command that includes also a query to get a Greeting from the kie server.
             The Greeting is printed to the log.
          -->
-        <route trace="false" id="testRoute">
+        <route id="test-route" trace="false">
             <description>Example route that will regularly create a Person and send it to the Kie Server to get a greeting</description>
-            <from uri="timer:testRoute?period=10s"/>
-            <bean ref="decisionServerHelper" method="createRandomCommand"/>
-
             <!-- Using the route defined below to send commands to the kie server and get the responses -->
-            <to uri="direct:decisionserver"/>
-
-            <bean ref="decisionServerHelper" method="extractResult"/>
-            <log message="${body.salutation}"/>
+            <from id="timer" uri="timer:testRoute?period=10s"/>
+            <bean id="new-command" method="createRandomCommand" ref="decisionServerHelper"/>
+            <to id="to-decision-server-rest" uri="direct:decisionserver"/>
+            <bean id="extract-result" method="extractResult" ref="decisionServerHelper"/>
+            <log id="log-result" message="${body.salutation}"/>
         </route>
-
-
         <!--
             The following route is used as sub-route to send generic commands to the kie server.
         -->
-        <route trace="false" id="decisionServerRest">
-            <from uri="direct:decisionserver"/>
-            <setHeader headerName="CamelHttpMethod">
+        <route id="decision-server-rest" trace="false">
+            <!-- Using the xstream marshalling -->
+            <from id="from-decision-server-rest" uri="direct:decisionserver"/>
+            <setHeader headerName="CamelHttpMethod" id="header-post">
                 <constant>POST</constant>
             </setHeader>
-
-            <!-- Using the xstream marshalling -->
-            <setHeader headerName="Content-Type">
+            <!-- Unmarshal the response -->
+            <setHeader headerName="Content-Type" id="header-content-type">
                 <constant>application/xml</constant>
             </setHeader>
-            <setHeader headerName="X-KIE-ContentType">
+            <setHeader headerName="X-KIE-ContentType" id="header-kie-content-type">
                 <constant>xstream</constant>
             </setHeader>
-            <marshal ref="xstream"/>
-            <to uri="http://{{service:{{kieserver.service}}:{{kieserver.devel-service}}}}/{{kieserver.path}}?authMethod=Basic&amp;authUsername={{kieserver.username}}&amp;authPassword={{kieserver.password}}"/>
-
-            <!-- Unmarshal the response -->
-            <unmarshal ref="xstream"/>
+            <marshal id="marshal">
+                <xstream/>
+            </marshal>
+            <to id="to-http-rest" uri="http://{{service:{{kieserver.service}}:{{kieserver.devel-service}}}}/{{kieserver.path}}?authMethod=Basic&amp;authUsername={{kieserver.username}}&amp;authPassword={{kieserver.password}}"/>
+            <unmarshal id="unmarshal">
+                <xstream/>
+            </unmarshal>
         </route>
-
     </camelContext>
-
 </beans>
