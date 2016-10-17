@@ -25,7 +25,7 @@
             <setHeader headerName="CamelHttpMethod" id="header-post">
                 <constant>POST</constant>
             </setHeader>
-            <!-- Unmarshal the response -->
+            <!-- Using the xstream marshalling -->
             <setHeader headerName="Content-Type" id="header-content-type">
                 <constant>application/xml</constant>
             </setHeader>
@@ -36,6 +36,7 @@
                 <xstream/>
             </marshal>
             <to id="to-http-rest" uri="http://{{service:{{kieserver.service}}:{{kieserver.devel-service}}}}/{{kieserver.path}}?authMethod=Basic&amp;authUsername={{kieserver.username}}&amp;authPassword={{kieserver.password}}"/>
+            <!-- Unmarshal the response -->
             <unmarshal id="unmarshal">
                 <xstream/>
             </unmarshal>
