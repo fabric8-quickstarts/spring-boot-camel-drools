@@ -30,7 +30,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- dependency versions -->
-        <fabric8.version>2.2.168</fabric8.version>
+        <fabric8.version>2.2.169</fabric8.version>
         <drools.version>6.4.0.Final</drools.version>
         <spring-boot.version>1.4.1.RELEASE</spring-boot.version>
 
@@ -55,8 +55,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-spring-boot-starter</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <!-- Enabling health checks -->
         <dependency>
@@ -85,12 +85,12 @@
 
         <dependency>
             <groupId>org.apache.camel</groupId>
-            <artifactId>camel-http</artifactId>
+            <artifactId>camel-http-starter</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel</groupId>
-            <artifactId>camel-xstream</artifactId>
+            <artifactId>camel-xstream-starter</artifactId>
         </dependency>
 
         <dependency>
