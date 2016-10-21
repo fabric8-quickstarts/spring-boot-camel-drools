@@ -10,34 +10,34 @@
         <route id="test-route" trace="false">
             <description>Example route that will regularly create a Person and send it to the Kie Server to get a greeting</description>
             <!-- Using the route defined below to send commands to the kie server and get the responses -->
-            <from id="timer" uri="timer:testRoute?period=10s"/>
-            <bean id="new-command" method="createRandomCommand" ref="decisionServerHelper"/>
-            <to id="to-decision-server-rest" uri="direct:decisionserver"/>
-            <bean id="extract-result" method="extractResult" ref="decisionServerHelper"/>
-            <log id="log-result" message="${body.salutation}"/>
+            <from id="route-timer" uri="timer:testRoute?period=10s"/>
+            <bean id="route-new-command" method="createRandomCommand" ref="decisionServerHelper"/>
+            <to id="route-to-decision-server-rest" uri="direct:decisionserver"/>
+            <bean id="route-extract-result" method="extractResult" ref="decisionServerHelper"/>
+            <log id="route-log-result" message="${body.salutation}"/>
         </route>
         <!--
             The following route is used as sub-route to send generic commands to the kie server.
         -->
         <route id="decision-server-rest" trace="false">
             <!-- Using the xstream marshalling -->
-            <from id="from-decision-server-rest" uri="direct:decisionserver"/>
+            <from id="route-from-decision-server-rest" uri="direct:decisionserver"/>
             <setHeader headerName="CamelHttpMethod" id="header-post">
                 <constant>POST</constant>
             </setHeader>
             <!-- Using the xstream marshalling -->
-            <setHeader headerName="Content-Type" id="header-content-type">
+            <setHeader headerName="Content-Type" id="route-header-content-type">
                 <constant>application/xml</constant>
             </setHeader>
-            <setHeader headerName="X-KIE-ContentType" id="header-kie-content-type">
+            <setHeader headerName="X-KIE-ContentType" id="route-header-kie-content-type">
                 <constant>xstream</constant>
             </setHeader>
-            <marshal id="marshal">
+            <marshal id="route-marshal">
                 <xstream/>
             </marshal>
             <to id="to-http-rest" uri="http://{{service:{{kieserver.service}}:{{kieserver.devel-service}}}}/{{kieserver.path}}?authMethod=Basic&amp;authUsername={{kieserver.username}}&amp;authPassword={{kieserver.password}}"/>
             <!-- Unmarshal the response -->
-            <unmarshal id="unmarshal">
+            <unmarshal id="route-unmarshal">
                 <xstream/>
             </unmarshal>
         </route>
