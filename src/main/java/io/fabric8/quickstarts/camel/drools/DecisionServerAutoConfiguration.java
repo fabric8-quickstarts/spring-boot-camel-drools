@@ -34,7 +34,7 @@ public class DecisionServerAutoConfiguration {
      * Adding a customized XStream data-format to the registry.
      * @return a kie-compatible XStream data format
      */
-    @Bean(name = "xstream-dataformat")
+    @Bean(name = "drools-xstream-dataformat")
     public XStreamDataFormat xStreamDataFormat() {
         XStream xstream = BatchExecutionHelper.newXStreamMarshaller();
         // Use the "model" package instead of the one used on the kie server
