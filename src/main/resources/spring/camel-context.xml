@@ -25,20 +25,20 @@
             <setHeader headerName="CamelHttpMethod" id="header-post">
                 <constant>POST</constant>
             </setHeader>
-            <!-- Using the xstream marshalling -->
             <setHeader headerName="Content-Type" id="route-header-content-type">
                 <constant>application/xml</constant>
             </setHeader>
             <setHeader headerName="X-KIE-ContentType" id="route-header-kie-content-type">
                 <constant>xstream</constant>
             </setHeader>
+            <!-- Using a custom xstream marshalling -->
             <marshal id="route-marshal">
-                <xstream/>
+                <custom ref="drools-xstream-dataformat"/>
             </marshal>
             <to id="to-http-rest" uri="http://{{service:{{kieserver.service}}:{{kieserver.devel-service}}}}/{{kieserver.path}}?authMethod=Basic&amp;authUsername={{kieserver.username}}&amp;authPassword={{kieserver.password}}"/>
             <!-- Unmarshal the response -->
             <unmarshal id="route-unmarshal">
-                <xstream/>
+                <custom ref="drools-xstream-dataformat"/>
             </unmarshal>
         </route>
     </camelContext>
