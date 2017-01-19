@@ -1,6 +1,6 @@
 # Spring-Boot Camel-Drools QuickStart
 
-This example demonstrates how you can use Apache Camel to integrate a Spring-Boot application running on Kubernetes or OpenShift with a remote Kie Server.
+This example demonstrates how you can use Apache Camel to integrate a Spring-Boot application running on OpenShift with a remote Kie Server.
 
 ### Kie Server Configuration
 The Kie Server should be deployed before running the application and the classic `hellorule` example should be installed and activated. 
@@ -32,26 +32,20 @@ The example can be run locally using the following Maven goal:
     mvn spring-boot:run
 
 
-### Running the example on Kubernetes
+### Running the example on OpenShift
 
-It is assumed a running Kubernetes platform is already running. If not you can find details how to [get started](http://fabric8.io/guide/getStarted/index.html).
+It is assumed a running OpenShift platform is already running.
 
-Assuming your current shell is connected to Kubernetes or OpenShift so that you can type a command like
-
-```
-kubectl get pods
-```
-
-or for OpenShift
+Assuming your current shell is connected to OpenShift so that you can type a command like
 
 ```
 oc get pods
 ```
 
-Then the following command will package your app and run it on Kubernetes:
+Then the following command will package your app and run it on OpenShift:
 
 ```
-mvn fabric8:run
+mvn fabric8:deploy
 ```
 
 To list all the running pods:
@@ -62,9 +56,16 @@ Then find the name of the pod that runs this quickstart, and output the logs fro
 
     oc logs <name of pod>
 
-You can also use the [fabric8 developer console](http://fabric8.io/guide/console.html) to manage the running pods, and view logs and much more.
+### Running via an S2I Application Template
 
+Applicaiton templates allow you deploy applications to OpenShift by filling out a form in the OpenShift console that allows you to adjust deployment parameters.  This template uses an S2I source build so that it handle building and deploying the application for you.
 
-### More details
+First, import the Fuse image streams:
 
-You can find more details about running this [quickstart](http://fabric8.io/guide/quickstarts/running.html) on the website. This also includes instructions how to change the Docker image user and registry.
+    oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/fis-2.0.x.redhat/fis-image-streams.json
+
+Then create the quickstart template:
+
+    oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/fis-2.0.x.redhat/quickstarts/spring-boot-camel-drools-template.json
+
+Now when you use "Add to Project" button in the OpenShift console, you should see a template for this quickstart. 
