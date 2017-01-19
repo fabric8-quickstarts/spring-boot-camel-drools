@@ -7,14 +7,14 @@ The Kie Server should be deployed before running the application and the classic
 The example is based on the `Person` and `Greeting` facts. The Camel route will periodically add a `Person` fact into the remote 
 knowledge base and retrieve a `Greeting` created by the rule.
 
-The `hellorule` example is installed by default into the Openshift Decision Server xPaaS Image when using the `decisionserver63-basic-s2i` template 
+The `hellorule` example is installed by default into the OpenShift Decision Server xPaaS Image when using the `decisionserver63-basic-s2i` template 
 with the default configuration (the `hellorule` source code is contained in the default git repository used by the template).
 If the Decision Server xPaaS image is used, access to the rest API is restricted to authenticated users, so the same _username_ and _password_
 combination chosen in the Decision Server xPaaS template must be used in the configuration of the current this quickstart.
 
 ### Quickstart Configuration
 Username and password as well as the service name of the Kie Server for the current quickstart can be set in the `application.properties` file 
-(especially when running this quickstart using the fabric8-maven-plugin) or from the Openshift creation wizard when the _S2I template_ is used.
+(especially when running this quickstart using the fabric8-maven-plugin) or from the OpenShift creation wizard when the _S2I template_ is used.
 
 Configuration through the `application.properties` file can also be useful when running the quickstart locally.
 
@@ -24,29 +24,15 @@ The example can be built with
 
     mvn clean install
 
+### Running the example in OpenShift
 
-### Running the example locally
+It is assumed that:
+- OpenShift platform is already running, if not you can find details how to [Install OpenShift at your site](https://docs.openshift.com/container-platform/3.3/install_config/index.html).
+- Your system is configured for Fabric8 Maven Workflow, if not you can find a [Get Started Guide](https://access.redhat.com/documentation/en/red-hat-jboss-middleware-for-openshift/3/single/red-hat-jboss-fuse-integration-services-20-for-openshift/)
 
-The example can be run locally using the following Maven goal:
+The example can be built and run on OpenShift using a single goal:
 
-    mvn spring-boot:run
-
-
-### Running the example on OpenShift
-
-It is assumed a running OpenShift platform is already running.
-
-Assuming your current shell is connected to OpenShift so that you can type a command like
-
-```
-oc get pods
-```
-
-Then the following command will package your app and run it on OpenShift:
-
-```
-mvn fabric8:deploy
-```
+    mvn fabric8:deploy
 
 To list all the running pods:
 
@@ -56,9 +42,11 @@ Then find the name of the pod that runs this quickstart, and output the logs fro
 
     oc logs <name of pod>
 
+You can also use the OpenShift [web console](https://docs.openshift.com/container-platform/3.3/getting_started/developers_console.html#developers-console-video) to manage the running pods, and view logs and much more.
+
 ### Running via an S2I Application Template
 
-Applicaiton templates allow you deploy applications to OpenShift by filling out a form in the OpenShift console that allows you to adjust deployment parameters.  This template uses an S2I source build so that it handle building and deploying the application for you.
+Application templates allow you deploy applications to OpenShift by filling out a form in the OpenShift console that allows you to adjust deployment parameters.  This template uses an S2I source build so that it handle building and deploying the application for you.
 
 First, import the Fuse image streams:
 
@@ -70,7 +58,6 @@ Then create the quickstart template:
 
 Now when you use "Add to Project" button in the OpenShift console, you should see a template for this quickstart. 
 
-
 ### Integration Testing
 
 The example includes a [fabric8 arquillian](https://github.com/fabric8io/fabric8/tree/v2.2.170.redhat/components/fabric8-arquillian) OpenShift Integration Test. 
@@ -79,5 +66,4 @@ Once the container image has been built and deployed in OpenShift, the integrati
     mvn test -Dtest=*KT
 
 The test is disabled by default and has to be enabled using `-Dtest`. Open Source Community documentation at [Integration Testing](https://fabric8.io/guide/testing.html) and [Fabric8 Arquillian Extension](https://fabric8.io/guide/arquillian.html) provide more information on writing full fledged black box integration tests for OpenShift. 
-
 
