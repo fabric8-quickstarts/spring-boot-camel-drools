@@ -7,7 +7,7 @@ The Kie Server should be deployed before running the application and the classic
 The example is based on the `Person` and `Greeting` facts. The Camel route will periodically add a `Person` fact into the remote 
 knowledge base and retrieve a `Greeting` created by the rule.
 
-The `hellorule` example is installed by default into the Openshift Decision Server xPaaS Image when using the `decisionserver63-basic-s2i` template 
+The `hellorule` example is installed by default into the Openshift Decision Server xPaaS Image when using the `decisionserver64-basic-s2i` template 
 with the default configuration (the `hellorule` source code is contained in the default git repository used by the template).
 If the Decision Server xPaaS image is used, access to the rest API is restricted to authenticated users, so the same _username_ and _password_
 combination chosen in the Decision Server xPaaS template must be used in the configuration of the current this quickstart.
