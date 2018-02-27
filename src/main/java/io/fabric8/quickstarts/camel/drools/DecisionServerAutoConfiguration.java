@@ -15,11 +15,10 @@
  */
 package io.fabric8.quickstarts.camel.drools;
 
-import io.fabric8.quickstarts.camel.drools.model.Person;
-
 import com.thoughtworks.xstream.XStream;
-
+import io.fabric8.quickstarts.camel.drools.model.Person;
 import org.apache.camel.dataformat.xstream.XStreamDataFormat;
+import org.apache.camel.spi.DataFormatFactory;
 import org.kie.internal.runtime.helper.BatchExecutionHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +40,16 @@ public class DecisionServerAutoConfiguration {
         xstream.aliasPackage(HELLO_RULES_PACKAGE_NAME, Person.class.getPackage().getName());
 
         return new XStreamDataFormat(xstream);
+    }
+
+    /**
+     * Camel requires a dataformat factory as template to create dataformats.
+     * Since we don't customize the xstream dataformat in the routes,
+     * we can reuse the same instance in all invocations.
+     */
+    @Bean(name = "xstream-dataformat-factory")
+    public DataFormatFactory dataFormatFactory(XStreamDataFormat xStreamDataFormat) {
+        return () -> xStreamDataFormat;
     }
 
 }
