@@ -21,7 +21,7 @@
 
     <groupId>io.fabric8.quickstarts</groupId>
     <artifactId>spring-boot-camel-drools</artifactId>
-    <version>1.0.0.fuse-000060</version>
+    <version>1.0.0.fuse-000060-redhat-1</version>
 
     <name>Fabric8 :: Quickstarts :: Spring Boot :: Camel and Drools</name>
     <description>Spring Boot example running a Camel route using a rules engine</description>
