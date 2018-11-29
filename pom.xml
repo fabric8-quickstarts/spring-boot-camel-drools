@@ -32,7 +32,7 @@
         <!-- configure the Fuse version you want to use here -->
         <fuse.version>7.0.1.fuse-000008-redhat-4</fuse.version>
 
-        <drools.version>6.5.0.Final</drools.version>
+        <drools.version>6.5.0.Final-redhat-21</drools.version>
 
         <!-- maven plugin versions -->
         <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
