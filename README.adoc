@@ -1,69 +1,94 @@
-# Spring-Boot Camel-Drools QuickStart
+== Spring-Boot Camel-Drools QuickStart
 
 This example demonstrates how you can use Apache Camel to integrate a Spring-Boot application running on Kubernetes or OpenShift with a remote Kie Server.
 
-### Kie Server Configuration
-The Kie Server should be deployed before running the application and the classic `hellorule` example should be installed and activated. 
-The example is based on the `Person` and `Greeting` facts. The Camel route will periodically add a `Person` fact into the remote 
-knowledge base and retrieve a `Greeting` created by the rule.
+The application utilizes the Spring http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ImportResource.html[`@ImportResource`] annotation to load a Camel Context definition via a _src/main/resources/spring/camel-context.xml_ file on the classpath.
 
-The `hellorule` example is installed by default into the Openshift Decision Server xPaaS Image when using the `decisionserver64-basic-s2i` template 
-with the default configuration (the `hellorule` source code is contained in the default git repository used by the template).
-If the Decision Server xPaaS image is used, access to the rest API is restricted to authenticated users, so the same _username_ and _password_
-combination chosen in the Decision Server xPaaS template must be used in the configuration of the current this quickstart.
+IMPORTANT: This quickstart can run in 2 modes: standalone on your machine and on Kubernetes / OpenShift Cluster
 
-### Quickstart Configuration
-Username and password as well as the service name of the Kie Server for the current quickstart can be set in the `application.properties` file 
-(especially when running this quickstart using the fabric8-maven-plugin) or from the Openshift creation wizard when the _S2I template_ is used.
+== Kie Server Configuration
 
-Configuration through the `application.properties` file can also be useful when running the quickstart locally.
+The Kie Server should be deployed before running the application and the classic `hellorule` example should be installed and activated. The example is based on the `Person` and `Greeting` facts. The Camel route will periodically add a `Person` fact into the remote knowledge base and retrieve a `Greeting` created by the rule.
 
-### Building
+The `hellorule` example is installed by default into the Openshift Decision Server xPaaS Image when using the `decisionserver64-basic-s2i` template with the default configuration (the `hellorule` source code is contained in the default git repository used by the template). If the Decision Server xPaaS image is used, access to the rest API is restricted to authenticated users, so the same _username_ and _password_ combination chosen in the Decision Server xPaaS template must be used in the configuration of the current this quickstart.
 
-The example can be built with
+**Note**: Username and password as well as the service name of the Kie Server for the current quickstart can be set in the `application.properties` file (especially when running this quickstart using the fabric8-maven-plugin) or from the Openshift creation wizard when the S2I template is used.
 
-    mvn clean install
+Configuration through the application.properties file can also be useful when running the quickstart locally.
 
+== Deployment options
 
-### Running the example locally
+You can run this quickstart in the following modes:
 
-The example can be run locally using the following Maven goal:
+* Kubernetese / Single-node OpenShift cluster
+* Standalone on your machine
 
-    mvn spring-boot:run
+The most effective way to run this quickstart is to deploy and run the project on OpenShift.
 
+For more details about running this quickstart on a single-node OpenShift cluster, CI/CD deployments, as well as the rest of the runtime, see the link:http://appdev.openshift.io/docs/spring-boot-runtime.html[Spring Boot Runtime Guide].
 
-### Running the example on Kubernetes
+== Running the Quickstart on a single-node Kubernetes/OpenShift cluster
 
-It is assumed a running Kubernetes platform is already running. If not you can find details how to [get started](http://fabric8.io/guide/getStarted/index.html).
+A single-node Kubernetes/OpenShift cluster provides you with access to a cloud environment that is similar to a production environment.
 
-Assuming your current shell is connected to Kubernetes or OpenShift so that you can type a command like
+If you have a single-node Kubernetes/OpenShift cluster, such as Minishift or the Red Hat Container Development Kit, link:http://appdev.openshift.io/docs/minishift-installation.html[installed and running], you can deploy your quickstart there.
 
-```
-kubectl get pods
-```
+To deploy this quickstart to a running single-node OpenShift cluster:
 
-or for OpenShift
+. Download the project and extract the archive on your local filesystem.
 
-```
-oc get pods
-```
+. Log in to your OpenShift cluster:
++
+[source,bash,options="nowrap",subs="attributes+"]
+----
+$ oc login -u developer -p developer
+----
 
-Then the following command will package your app and run it on Kubernetes:
+. Create a new OpenShift project for the quickstart:
++
+[source,bash,options="nowrap",subs="attributes+"]
+----
+$ oc new-project MY_PROJECT_NAME
+----
 
-```
-mvn fabric8:run
-```
+. Change the directory to the folder that contains the extracted quickstart application (for example, `my_openshift/spring-boot-camel-drools`) :
++
+[source,bash,options="nowrap",subs="attributes+"]
+----
+$ cd my_openshift/spring-boot-camel-drools
+----
 
-To list all the running pods:
+. Build and deploy the project to the OpenShift cluster:
++
+[source,bash,options="nowrap",subs="attributes+"]
+----
+$ mvn clean -DskipTests fabric8:deploy -Popenshift
+----
 
-    oc get pods
+. In your browser, navigate to the `MY_PROJECT_NAME` project in the OpenShift console.
+Wait until you can see that the pod for the `spring-boot-camel-drools` has started up.
 
-Then find the name of the pod that runs this quickstart, and output the logs from the running pods with:
+. On the project's `Overview` page, navigate to the details page deployment of the `spring-boot-camel-drool` application: `https://OPENSHIFT_IP_ADDR:8443/console/project/MY_PROJECT_NAME/browse/rc/spring-boot-camel-drools-NUMBER_OF_DEPLOYMENT?tab=details`.
 
-    oc logs <name of pod>
+. Switch to tab `Logs` and then see the messages sent by Camel.
 
-You can also use the [fabric8 developer console](http://fabric8.io/guide/console.html) to manage the running pods, and view logs and much more.
+== Running the quickstart standalone on your machine
 
-### More details
+To run this quickstart as a standalone project on your local machine:
 
-You can find more details about running this [quickstart](http://fabric8.io/guide/quickstarts/running.html) on the website. This also includes instructions how to change the Docker image user and registry.
+. Download the project and extract the archive on your local filesystem.
+. Build the project:
++
+[source,bash,options="nowrap",subs="attributes+"]
+----
+$ cd PROJECT_DIR
+$ mvn clean package
+----
+. Run the service:
+
++
+[source,bash,options="nowrap",subs="attributes+"]
+----
+$ mvn spring-boot:run
+----
+. See the messages sent by Camel.
