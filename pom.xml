@@ -23,7 +23,7 @@
 
     <groupId>io.fabric8.quickstarts</groupId>
     <artifactId>spring-boot-camel-drools</artifactId>
-    <version>7.5.0.fuse-sb2-750017</version>
+    <version>7.5.0.fuse-sb2-750017-redhat-00005</version>
 
     <name>Fabric8 :: Quickstarts :: Spring Boot :: Camel and Drools</name>
     <description>Spring Boot example running a Camel route using a rules engine</description>
