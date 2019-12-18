@@ -36,6 +36,7 @@
         <fuse.bom.version>7.4.0-SNAPSHOT</fuse.bom.version>
 
         <drools.version>6.5.0.Final-redhat-21</drools.version>
+        <jackson1.version>1.9.13.jdk17-redhat-00001</jackson1.version>
 
         <!-- maven plugin versions -->
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -44,6 +45,21 @@
 
     <dependencyManagement>
         <dependencies>
+             <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-core-asl</artifactId>
+                <version>${jackson1.version}</version>
+            </dependency>
+             <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-xc</artifactId>
+                <version>${jackson1.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-mapper-asl</artifactId>
+                <version>${jackson1.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.jboss.redhat-fuse</groupId>
                 <artifactId>fuse-springboot-bom</artifactId>
