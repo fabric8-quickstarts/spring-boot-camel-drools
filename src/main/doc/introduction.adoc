@@ -1,0 +1,5 @@
+== Spring-Boot Camel-Drools QuickStart
+
+This example demonstrates how you can use Apache Camel to integrate a Spring-Boot application running on Kubernetes or OpenShift with a remote Kie Server.
+
+The application utilizes the Spring http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ImportResource.html[`@ImportResource`] annotation to load a Camel Context definition via a _src/main/resources/spring/camel-context.xml_ file on the classpath.
