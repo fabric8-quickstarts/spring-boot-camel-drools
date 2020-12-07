@@ -12,7 +12,7 @@ The Kie Server should be deployed before running the application and the classic
 
 The `hellorule` example is installed by default into the Openshift Decision Server xPaaS Image when using the `decisionserver64-basic-s2i` template with the default configuration (the `hellorule` source code is contained in the default git repository used by the template). If the Decision Server xPaaS image is used, access to the rest API is restricted to authenticated users, so the same _username_ and _password_ combination chosen in the Decision Server xPaaS template must be used in the configuration of the current this quickstart.
 
-**Note**: Username and password as well as the service name of the Kie Server for the current quickstart can be set in the `application.properties` file (especially when running this quickstart using the fabric8-maven-plugin) or from the Openshift creation wizard when the S2I template is used.
+**Note**: Username and password as well as the service name of the Kie Server for the current quickstart can be set in the `application.properties` file (especially when running this quickstart using the openshift-maven-plugin) or from the Openshift creation wizard when the S2I template is used.
 
 Configuration through the application.properties file can also be useful when running the quickstart locally.
 
@@ -62,7 +62,7 @@ $ cd my_openshift/spring-boot-camel-drools
 +
 [source,bash,options="nowrap",subs="attributes+"]
 ----
-$ mvn clean -DskipTests fabric8:deploy -Popenshift
+$ mvn clean -DskipTests oc:deploy -Popenshift
 ----
 
 . In your browser, navigate to the `MY_PROJECT_NAME` project in the OpenShift console.
@@ -111,7 +111,7 @@ $ cd my_openshift/spring-boot-camel-drools
 +
 [source,bash,options="nowrap",subs="attributes+"]
 ----
-$ mvn clean -DskipTests fabric8:deploy -Popenshift -Dfabric8.generator.fromMode=istag -Dfabric8.generator.from=MY_PROJECT_NAME/fuse-java-openshift:2.0
+$ mvn clean -DskipTests oc:deploy -Popenshift -Djkube.generator.fromMode=istag -Djkube.generator.from=MY_PROJECT_NAME/fuse-java-openshift:2.0
 ----
 
 . In your browser, navigate to the `MY_PROJECT_NAME` project in the OpenShift console.
