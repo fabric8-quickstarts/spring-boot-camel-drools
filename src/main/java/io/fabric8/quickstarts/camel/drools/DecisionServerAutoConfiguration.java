@@ -39,6 +39,12 @@ public class DecisionServerAutoConfiguration {
         // Use the "model" package instead of the one used on the kie server
         xstream.aliasPackage(HELLO_RULES_PACKAGE_NAME, Person.class.getPackage().getName());
 
+        xstream.allowTypes(new Class[]{org.kie.server.api.model.ServiceResponse.class,
+                org.drools.core.runtime.impl.ExecutionResultImpl.class,
+                org.drools.core.runtime.rule.impl.FlatQueryResults.class,
+                io.fabric8.quickstarts.camel.drools.model.Greeting.class
+        });
+
         return new XStreamDataFormat(xstream);
     }
 
