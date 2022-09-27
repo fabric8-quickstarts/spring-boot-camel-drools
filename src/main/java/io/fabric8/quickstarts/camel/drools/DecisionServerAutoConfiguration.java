@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DecisionServerAutoConfiguration {
 
-    private static final String HELLO_RULES_PACKAGE_NAME = "org.openshift.quickstarts.decisionserver.hellorules";
+    private static final String HELLO_RULES_PACKAGE_NAME = "org.openshift.quickstarts.rhpam.kieserver.decisions";
 
     /**
      * Adding a customized XStream data-format to the registry.
@@ -38,6 +38,8 @@ public class DecisionServerAutoConfiguration {
         XStream xstream = BatchExecutionHelper.newXStreamMarshaller();
         // Use the "model" package instead of the one used on the kie server
         xstream.aliasPackage(HELLO_RULES_PACKAGE_NAME, Person.class.getPackage().getName());
+
+        xstream.alias("response", org.kie.server.api.model.ServiceResponse.class);
 
         xstream.allowTypes(new Class[]{org.kie.server.api.model.ServiceResponse.class,
                 org.drools.core.runtime.impl.ExecutionResultImpl.class,
@@ -57,5 +59,4 @@ public class DecisionServerAutoConfiguration {
     public DataFormatFactory dataFormatFactory(XStreamDataFormat xStreamDataFormat) {
         return () -> xStreamDataFormat;
     }
-
 }

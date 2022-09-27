@@ -1,0 +1,26 @@
+apiVersion: app.kiegroup.org/v2
+kind: KieApp
+metadata:
+  name: rhpam-production-immutable
+spec:
+  commonConfig:
+    adminPassword: Thepassword1!
+    adminUser: kieserver
+  objects:
+    servers:
+      - env:
+          - name: KIE_SERVER_CONTAINER_DEPLOYMENT
+            value: >-
+              decisionserver-hellorules=org.openshift.quickstarts:rhpam-kieserver-decisions:1.6.0-SNAPSHOT
+        build:
+          from:
+            name: 'registry.redhat.io/rhpam-7/rhpam-kieserver-rhel8:latest'
+            kind: DockerImage
+          gitSource:
+            uri: 'https://github.com/jboss-container-images/rhpam-7-openshift-image'
+            contextDir: quickstarts/hello-rules/hellorules
+            reference: 7.13.x
+          kieServerContainerDeployment: >-
+            decisionserver-hellorules=org.openshift.quickstarts:rhpam-kieserver-decisions:1.6.0-SNAPSHOT
+        replicas: 1
+  environment: rhpam-production-immutable
